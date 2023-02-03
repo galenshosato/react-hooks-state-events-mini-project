@@ -1,12 +1,20 @@
-import React, {useState} from "react";
+import React from "react";
 import Task from "./Task";
 
-function TaskList({tasks}) {
-  const [taskState, setTaskState] = useState(tasks)
+function TaskList({name, taskState, setTaskState}) {
+
+
+  const newArray = taskState.filter(task => {
+     if(name === 'All') {
+      return true
+     }
+     return task.category === name
+  })
 
 
   function handleClick (text) {
-    setTaskState(taskState.filter((item) => item.text !== text ))
+    let newTaskArray = newArray.filter((item) => item.text !== text )
+    setTaskState(newTaskArray)
      
     }
   
@@ -15,7 +23,7 @@ function TaskList({tasks}) {
   return (
     <div className="tasks">
       {/* display a list of tasks using Task component */}
-        {taskState.map((task, index) => {
+        {newArray.map((task, index) => {
         return (
         <Task key={index} text={task.text} category={task.category} handleClick={handleClick} />
           )})}
